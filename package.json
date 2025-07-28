@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/vitorgessner/timestamp_api#readme",
   "dependencies": {
+    "body-parser": "^2.2.0",
     "express": "^5.1.0"
   }
 }
