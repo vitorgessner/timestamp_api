@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/src/index.html');
+    return res.sendFile(__dirname + '/src/index.html');
 })
 
 app.get('/api/:date', (req, res) => {
@@ -19,9 +19,19 @@ app.get('/api/:date', (req, res) => {
 
     if (!isNaN(date)) {
         unix = Number(date);
-        utc = new Date(Number(date));
+        utc = new Date(Number(date)).toUTCString();
     }
-    res.json({unix, utc})
+
+    if (unix === null || utc === "Invalid Date") {
+        return res.json({error: "Invalid Date"})
+    }
+    return res.json({unix, utc})
+})
+
+app.get('/api/', (req, res) => {
+    utc = new Date().toUTCString();
+    unix = new Date().getTime();
+    return res.json({unix, utc});
 })
 
 app.listen(port, () => {
