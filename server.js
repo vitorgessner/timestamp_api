@@ -10,6 +10,20 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/src/index.html');
 })
 
+app.get('/api/:date', (req, res) => {
+    const date = req.params.date;
+    let utc, unix;
+
+    utc = new Date(date).toUTCString();
+    unix = new Date(date).getTime();
+
+    if (!isNaN(date)) {
+        unix = Number(date);
+        utc = new Date(Number(date));
+    }
+    res.json({unix, utc})
+})
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
